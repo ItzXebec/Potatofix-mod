@@ -2,10 +2,7 @@ name: Build PotatoFix
 
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-
+    branches: [ "**" ]
 jobs:
   build:
     runs-on: ubuntu-latest
