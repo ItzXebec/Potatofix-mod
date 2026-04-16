@@ -60,10 +60,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Download Minecraft and generate sources
-        run: ./gradlew genSources --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
-        timeout-minutes: 30
-
       - name: Build with Gradle
         run: ./gradlew build --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
         timeout-minutes: 30
