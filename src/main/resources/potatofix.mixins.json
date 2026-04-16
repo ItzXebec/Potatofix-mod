@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "com.potatofix.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "GameRendererMixin",
+    "LevelRendererMixin",
+    "ParticleEngineMixin"
+  ],
+  "client": [
+    "GameRendererMixin",
+    "LevelRendererMixin",
+    "ParticleEngineMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
