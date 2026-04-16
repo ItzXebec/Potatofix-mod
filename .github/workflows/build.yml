@@ -1,7 +1,9 @@
 name: Build PotatoFix
+
 on:
   push:
     branches: [ "**" ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,6 +42,16 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
+      - name: Cache Gradle files
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ matrix.mc_version }}-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            gradle-${{ matrix.mc_version }}-
+
       - name: Update gradle.properties for ${{ matrix.mc_version }}
         run: |
           sed -i "s/minecraft_version=.*/minecraft_version=${{ matrix.mc_version }}/" gradle.properties
@@ -48,16 +60,15 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x gradlew
-         
-      - name: Generate Minecraft Sources
-        run: ./gradlew migrateMappings --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
+
+      - name: Download Minecraft and generate sources
+        run: ./gradlew genSources --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
         timeout-minutes: 30
-        continue-on-error: true
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
         timeout-minutes: 30
-        
+
       - name: Upload JAR for ${{ matrix.mc_version }}
         uses: actions/upload-artifact@v4
         with:
