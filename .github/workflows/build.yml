@@ -1,5 +1,4 @@
 name: Build PotatoFix
-
 on:
   push:
     branches: [ "**" ]
@@ -49,10 +48,11 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x gradlew
-
+        
       - name: Build with Gradle
-        run: ./gradlew build
-
+        run: ./gradlew build --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
+        timeout-minutes: 30
+        
       - name: Upload JAR for ${{ matrix.mc_version }}
         uses: actions/upload-artifact@v4
         with:
