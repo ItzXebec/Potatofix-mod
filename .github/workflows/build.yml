@@ -48,7 +48,12 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x gradlew
-        
+         
+      - name: Generate Minecraft Sources
+        run: ./gradlew migrateMappings --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
+        timeout-minutes: 30
+        continue-on-error: true
+
       - name: Build with Gradle
         run: ./gradlew build --no-daemon -Dorg.gradle.jvmargs="-Xmx2G"
         timeout-minutes: 30
